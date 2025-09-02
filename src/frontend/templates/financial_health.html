@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="financial-health">
+    <h2>Financial Health</h2>
+    
+    {% if insights.error %}
+        <p>Error fetching insights: {{ insights.error }}</p>
+    {% else %}
+        <h3>Savings Recommendation</h3>
+        <p>{{ insights.savings_recommendation }}</p>
+
+        <h3>Spending Breakdown</h3>
+        <ul>
+            {% for category, amount in insights.spending_breakdown.items() %}
+                <li>{{ category }}: ${{ amount }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Credit Utilization</h3>
+        <p>{{ (insights.credit_utilization * 100) | round(2) }}%</p>
+
+        <h3>AI Narrative</h3>
+        <p>{{ insights.narrative }}</p>
+    {% endif %}
+</div>
+{% endblock %}
