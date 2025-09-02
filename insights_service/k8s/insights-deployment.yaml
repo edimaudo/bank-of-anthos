@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insights-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: insights-service
+  template:
+    metadata:
+      labels:
+        app: insights-service
+    spec:
+      containers:
+      - name: insights-service
+        image: gcr.io/YOUR_PROJECT_ID/insights-service:latest
+        env:
+        - name: BOA_BASE_URL
+          value: "http://bank-of-anthos-service"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: insights-service
+spec:
+  selector:
+    app: insights-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
