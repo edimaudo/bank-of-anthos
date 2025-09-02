@@ -45,6 +45,10 @@ from opentelemetry.instrumentation.jinja2 import Jinja2Instrumentor
 from api_call import ApiCall, ApiRequest
 from traced_thread_pool_executor import TracedThreadPoolExecutor
 
+# Financial Health app
+from financial_health import financial_health_bp
+app.register_blueprint(financial_health_bp)
+
 # Local constants
 BALANCE_NAME = "balance"
 CONTACTS_NAME = "contacts"
