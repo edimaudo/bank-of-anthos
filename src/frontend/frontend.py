@@ -768,6 +768,20 @@ def create_app():
 
     return app
 
+    @app.route('/financial-health/<user_id>')
+    def financial_health(user_id):
+        # Fetch insights from insights_service
+        insights_service_url = os.getenv("INSIGHTS_SERVICE_URL", "http://localhost:8080/api/v1/insights")
+        try:
+            response = requests.get(f"{insights_service_url}/{user_id}")
+            response.raise_for_status()
+            insights = response.json()
+        except requests.RequestException as e:
+            insights = {"error": str(e)}
+    
+        return render_template('financial_health.html', insights=insights)
+
+
 
 if __name__ == "__main__":
     # Create an instance of flask server when called directly
